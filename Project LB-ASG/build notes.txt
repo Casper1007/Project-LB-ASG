@@ -1,0 +1,74 @@
+build notes
+1. vpc and more (terraform)
+2. security group (terraform)
+3. ec2 (terraform)
+4. security group: load balancer
+5. launch template
+- name launch template
+- do not associate a subnet or availability zone with the launch template
+- do not touch AMI, instance type key pair
+- in network settings, do not subnet or availability zone with the launch template
+- make sure they say " do not include in launch template"
+- do not touch security groups
+- ignore storage
+- in advanced details, include script for ASG
+- 6. target groups
+- target type == instances
+- protocol == HTTP
+- port == 80
+- ip address type == IPv4
+- make sure you select custom vpc
+- health checks, do not touch
+- on "Register Targets" screen, DO NOT SELECT ANY EC2s if available
+- Hit the Orange Button
+- on the next page, look over the settings, review your notes and if everything aligns, click the orange button.
+- 7. load balancer
+- choose application load balancer, per instruction of Block Cpt. Larry
+- name load balancer
+- scheme == Internet Facing
+- load balancer IP type == IPv4
+- network mapping == custom vpc and select all AZs, and select public              subnets for each AZ
+- select custom load balancer security group
+- listener == HTTP:80
+- default action == forward to Target Groups, select custom target group
+- review summary, click orange button
+- 8. auto scaling group
+- launch template == select custom launch template, specify
+- Desired version, then click orange button
+- Network == select custom vpc all Private subnets in your AZs, then click orange button
+- Choose “attach to existing load balancer” then choose accurate target group (load balancer)
+- Health check == turn on enable health checks (elastic load balancing) health checks
+- Leave health check grace period at default (300 seconds, then click orange button
+- Configure group size & scaling: desired capacity = 3
+- Scaling min desired capacity =1, max desired capacity = 6
+- Use target tracking policy and use defaults
+- Instance maintenance policy == mixed behavior (default), click the orange button
+- REVIEW  
+
+
+
+
+
+******************************************************************************
+quick notes
+
+asg: auto scaling group
+
+Load Balancer == Public subnets
+ASG == Private Subnets
+
+3 types of computing infrastructure:
+servers == EC2
+microservices == containers (don't worry about this yet)
+serverless == CloudFront (Content delivery network)
+
+
+
+
+Teardown:
+
+1. Asg
+2. Load balancer listener
+3. Target groups
+4. Load balancer
+5. Launch template
